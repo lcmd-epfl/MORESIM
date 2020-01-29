@@ -1,14 +1,17 @@
-# MORESIM
+MORESIM
+============
 Modular Replica Exchange Simulator
 
 MORESIM is a module that allows to set up replica exchange simulations in python.
 
-## Requirements
-* Python 3.5 or later
-* Anaconda3
+Requirements
+------------
+* Python_ 3.5 or later
+* _Anaconda 3
 * Atomic Simulation Enviroment (ASE_)
 
-## Installation 
+Installation 
+------------
 Add ``~/moresim`` to your $PYTHONPATH environment variable.
 
 Example
@@ -16,5 +19,6 @@ Example
 See tutorials for examples
 
 
-
+.. _Python: http://www.python.org/
+.. _Anaconda : https://www.anaconda.com/
 .. _ASE: http://wiki.fysik.dtu.dk/ase
