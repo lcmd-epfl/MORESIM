@@ -2,6 +2,9 @@ MORESIM
 ============
 Modular Replica Exchange Simulator
 
+.. image:: https://zenodo.org/badge/DOI/10.5281/zenodo.3630553.svg
+   :target: https://doi.org/10.5281/zenodo.3630553
+
 MORESIM is a module that allows to set up replica exchange simulations in python.
 
 Requirements
@@ -22,3 +25,5 @@ See tutorials for examples
 .. _Python: http://www.python.org/
 .. _Anaconda : https://www.anaconda.com/
 .. _ASE: http://wiki.fysik.dtu.dk/ase
+
+
