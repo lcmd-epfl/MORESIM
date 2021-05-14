@@ -1,6 +1,17 @@
 """
-This module includes useful functions for the analysis of replica exchange and other sampling simulations.
 """
+This file contains a variety of functions to analyze the results of 
+molecular simulations. 
+
+It includes different methods to compute the evolution of free energy 
+quantities in molecular simulations, from cummulative approaches to block 
+renormalization and moving averages. 
+It is adapted to work both with unbiased and biased sampling, 
+thanks to the inclusion of optional sample weighting.
+
+It also contains tools to compute collective variables tipically 
+not included in other packages, like average planes and plane projections.
+""""""
 import ase
 import numpy as np
 import math
