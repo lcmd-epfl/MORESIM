@@ -1,5 +1,4 @@
 """
-"""
 This file contains a variety of functions to analyze the results of 
 molecular simulations. 
 
@@ -11,7 +10,7 @@ thanks to the inclusion of optional sample weighting.
 
 It also contains tools to compute collective variables tipically 
 not included in other packages, like average planes and plane projections.
-""""""
+"""
 import ase
 import numpy as np
 import math
