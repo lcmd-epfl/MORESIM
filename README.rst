@@ -124,6 +124,11 @@ Note that it is not the whole possible commands but just use here to show how a 
 	~$ python main.py -p True -dyn cMD -int MC -rep 1 -nstp 2000 -T 300 -freq 1
 
 		- DFTB/DeepMD // Restart // Monte Carlo: 
+		
+.. code:: bash
+
+~$ python main.py -p True -dyn cMD -int MC -rep 1 -nstp 2000 -T 300 -freq 1 -rst True
+
 		- DFTB/KRR // Monte Carlo: 
 		- DFTB/DeepMD // Velocity Verlet Langevin Modified: 
 		- DFTB/DeepMD // Velocity Verlet:
