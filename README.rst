@@ -51,8 +51,8 @@ Installation
 ------------
 The best way to install the package is to create our own python environment. 
 For this you can use the miniconda approach by typing in your terminal:
-	.. line-block::
-		conda create --name mymoresim python=3.9 os sys numpy=1.20.3 argparse=1.1 psutil=5.8.0 time cpuinfo scipy=1.6.3 dill=0.3.4 concurrent ase=3.22.0
+.. code:: bash
+	conda create --name mymoresim python=3.9 os sys numpy=1.20.3 argparse=1.1 psutil=5.8.0 time cpuinfo scipy=1.6.3 dill=0.3.4 concurrent ase=3.22.0
 You can then activate your 
 new environment:
 	.. line-block::
