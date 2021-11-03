@@ -119,6 +119,10 @@ We list here some examples of possible commands.
 Note that it is not the whole possible commands but just use here to show how a computation is basically launched.
 	* cMD simulations
 		- DFTB/DeepMD // Monte Carlo: 
+.. code:: bash
+
+	~$ python main.py -p True -dyn cMD -int MC -rep 1 -nstp 2000 -T 300 -freq 1
+
 		- DFTB/DeepMD // Restart // Monte Carlo: 
 		- DFTB/KRR // Monte Carlo: 
 		- DFTB/DeepMD // Velocity Verlet Langevin Modified: 
