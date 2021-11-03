@@ -126,8 +126,9 @@ Possibility for GPUs plateform is also allowed:
 A fast and small tutorial for hurry users
 -----------------------------------------
 
-.. image:: images/dithiacylcophane.jpeg 
-	:width: 600
+.. image:: images/dithiacyclophane.jpeg 
+	:width: 350
+	:alt: Dithiacyclophane representation
 
 We list here the most important things that a user has to know
 in order to correctly use the code.
