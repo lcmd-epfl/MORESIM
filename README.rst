@@ -165,10 +165,29 @@ Note that it is not the whole possible commands but just use here to show how a 
 **hRES simulations**
 
 - DFTB/DeepMD // Monte Carlo:
+
+.. code:: bash
+
+~$ python main.py -p True -dyn hRES -int MC -T 300 -freq 1 -rep 4 -rsv /home/celerse/ASE-lammps/pool_dithiacyclophene/new_reservoir/ -exc 20
+
 - DFTB/DeepMD // Restart // Monte Carlo:
+
+.. code:: bash
+
+~$ python main.py -p True -dyn hRES -int MC -T 300 -freq 1 -rep 4 -rsv /home/celerse/ASE-lammps/pool_dithiacyclophene/new_reservoir/ -exc 20 -rst True
+
 - XTB/N2P2 // Monte Carlo:
-- XTB/N2P2 // Velocity Verlet:		
-		
+
+.. code:: bash
+
+~$ python main.py -p True -dyn hRES -int MC -bslnd XTB -ml N2P2 -T 300 -freq 3 -nstp 3 -rep 4 -rsv /home/celerse/ASE-lammps/pool_dithiacyclophene/new_reservoir/ -exc 50
+
+- XTB/N2P2 // Velocity Verlet:	
+
+.. code:: bash
+
+~$ python main.py -p True -dyn hRES -int VV -bslnd XTB -ml N2P2 -T 300 -freq 20 -nstp 20 -rep 4 -rsv /home/celerse/ASE-lammps/pool_dithiacyclophene/new_reservoir/ -exc 50
+
 Authors
 -------
 	* Raimon Fabregat: raimon.fabregat@epfl.ch
