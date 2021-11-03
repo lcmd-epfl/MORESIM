@@ -22,10 +22,10 @@ ML potentials !
 Requirements
 ------------
 Mandatory:
-* Python_ 3.9 (should also work with 3.6/3.7/3.8 but not tested)
-* Python_ packages: os, 
-* Anaconda_ 3
-* Atomic Simulation Enviroment (ASE_)
+	* Python_ 3.9 (should also work with 3.6/3.7/3.8 but not tested)
+	* Python_ packages: os, 
+	* Anaconda_ 3
+	* Atomic Simulation Enviroment (ASE_)
 
 Optional (depends on your target):
 1/ For baselined:
@@ -47,11 +47,11 @@ Future good tutorials are in current statement !
 
 Authors
 -------
-Raimon Fabregat: raimon.fabregat@epfl.ch
-Frederic Celerse: frederic.celerse@epfl.ch
-Alberto Fabrizio: alberto.fabrizio@epfl.ch
-Veronika Juraskova: veronika.juraskova@epfl.ch
-Benjamin Meyer: benjamin.meyer@epfl.ch
-Theo Jaffrelot Inizant: theo.jaffrelot-inizant@sorbonne-universite.fr
-Daniel Hollas: daniel.hollas@epfl.ch
-Clemence Corminboeuf: clemence.corminboeuf@epfl.ch
+	Raimon Fabregat: raimon.fabregat@epfl.ch
+	Frederic Celerse: frederic.celerse@epfl.ch
+	Alberto Fabrizio: alberto.fabrizio@epfl.ch
+	Veronika Juraskova: veronika.juraskova@epfl.ch
+	Benjamin Meyer: benjamin.meyer@epfl.ch
+	Theo Jaffrelot Inizant: theo.jaffrelot-inizant@sorbonne-universite.fr
+	Daniel Hollas: daniel.hollas@epfl.ch
+	Clemence Corminboeuf: clemence.corminboeuf@epfl.ch
