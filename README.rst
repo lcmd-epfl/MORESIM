@@ -5,17 +5,17 @@ VERSION 2.0**
 
 About NEW MORESIM 2.0
 ---------------------
-|MORESIM is a made home package that allows to perform standard MD simulations
+MORESIM is a made home package that allows to perform standard MD simulations
 at a low level of theory (baselined) and correct the obtained PES using some 
 ML potentials !
-|--> The different MD approaches:
+| --> The different MD approaches:
 	* Conventional Molecular Dynamics (cMD)
 	* Hamiltonian Reservoir Replica Exchanges Molecular Dynamics (hRES)
-|--> The different available integrators:
+| --> The different available integrators:
 	* Monte Carlo
 	* Velocity Verlet Langevin Modified
 	* Velocity Verlet
-|--> The different available baselined and ML corrections:
+| --> The different available baselined and ML corrections:
 	* XTB, DFTB
 	* KRR, N2P2, DeepMD
 
