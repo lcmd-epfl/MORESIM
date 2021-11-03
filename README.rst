@@ -103,8 +103,7 @@ and the same for python libraries:
 
 .. note::
 
-	These exports are not mandatory for the installation, but is good to be placed
-	within the bashrc !
+	These exports are not mandatory for the installation, but is good to be placed within the bashrc !
 
 Specific installation in case of DeepMD
 ---------------------------------------
