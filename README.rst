@@ -94,7 +94,7 @@ If DeepMD is the ML you would like target, you have to know that DeepMD-kit
 allow you to directly install it using conda. Therefore, you can create your
 own conda environment directly with deepmd:
 
-.. code: bash
+.. code:: bash
 
 	~$ conda create -n deepmd deepmd-kit=*=*cpu libdeepmd=*=*cpu lammps-dp -c https://conda.deepmodeling.org
 	
@@ -102,7 +102,7 @@ and then add manually each python packages using the pip install command.
 
 Possibility for GPUs plateform is also allowed:
 
-.. code:bash
+.. code:: bash
 
 	~$ conda create -n deepmd deepmd-kit=*=*gpu libdeepmd=*=*gpu lammps-dp cudatoolkit=11.3 horovod -c https://conda.deepmodeling.org
 
