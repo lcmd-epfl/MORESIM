@@ -38,11 +38,11 @@ Mandatory:
 	* Atomic Simulation Enviroment (ASE) version 3.22.0
 
 Optional (depends on your target):
-	1/ For baselined:
+	* For baselined:
 		* DFTB: https://dftbplus.org/download			
 			- NOTE: DFTB should be compiled with python and DFTD3 options in preference
 		* XTB: https://xtb-docs.readthedocs.io/en/latest/setup.html
-	2/ For ML corrections:
+	* For ML corrections:
 		* KRR: qml python package https://github.com/qmlcode/qml/blob/master/README.md
 		* N2P2: pynnp python package https://github.com/CompPhysVienna/n2p2
 		* DeepMD: deepmd python package https://github.com/deepmodeling/deepmd-kit
