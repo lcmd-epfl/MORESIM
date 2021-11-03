@@ -117,7 +117,8 @@ Future good tutorials are in current statement !
 launch.sh lists some basic commands to launch simulations !
 We list here some examples of possible commands. 
 Note that it is not the whole possible commands but just use here to show how a computation is basically launched.
-* cMD simulations
+
+**cMD simulations**
 - DFTB/DeepMD // Monte Carlo: 
 
 .. code:: bash
@@ -137,7 +138,7 @@ Note that it is not the whole possible commands but just use here to show how a 
 - XTB/N2P2 // Monte Carlo: 
 - XTB/N2P2 // Velocity Verlet:
 
-* hRES simulations
+**hRES simulations**
 - DFTB/DeepMD // Monte Carlo:
 - DFTB/DeepMD // Restart // Monte Carlo:
 - XTB/N2P2 // Monte Carlo:
