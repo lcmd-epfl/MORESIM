@@ -53,14 +53,16 @@ The best way to install the package is to create our own python environment.
 For this you can use the miniconda approach by typing in your terminal:
 	.. line-block::
 		conda create --name mymoresim python=3.9 os sys numpy=1.20.3 argparse=1.1 psutil=5.8.0 time cpuinfo scipy=1.6.3 dill=0.3.4 concurrent ase=3.22.0
-You can then activate your new environment:
+You can then activate your 
+new environment:
 	.. line-block::
 		conda activate mymoresim
-And decide to deactivate it once finished:
+And decide to deactivate it 
+once finished:
 	.. line-block::
 		conda deactivate mymoresim	
 Concerning now the different baselined and ML corrections, you should install them independently, depending on
-what type fo simulations you would like to perform.
+what type fo simulations you would like to perform:
 	a/ DFTB: ensure that the dftb+ executable is in your bin
 	b/ XTB: ensure that the xtb executable is in your bin
 	c/ qml: install the qml package within your python environment
