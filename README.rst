@@ -47,8 +47,8 @@ Optional (depends on your target):
 		* N2P2: pynnp python package https://github.com/CompPhysVienna/n2p2
 		* DeepMD: deepmd python package https://github.com/deepmodeling/deepmd-kit
 		
-Installation 
-------------
+Standard Installation 
+---------------------
 The best way to install the package is to create our own python environment. 
 For this you can use the miniconda approach by typing in your terminal:
 
@@ -87,6 +87,24 @@ using the followning command:
 
 The directory where the code was downloaded is thus ready to be used 
 for some simulations !
+
+Specific installation in case of DeepMD
+---------------------------------------
+If DeepMD is the ML you would like target, you have to know that DeepMD-kit
+allow you to directly install it using conda. Therefore, you can create your
+own conda environment directly with deepmd:
+
+.. code: bash
+
+	~$ conda create -n deepmd deepmd-kit=*=*cpu libdeepmd=*=*cpu lammps-dp -c https://conda.deepmodeling.org
+	
+and then add manually each python packages using the pip install command.
+
+Possibility for GPUs plateform is also allowed:
+
+.. code:bash
+
+	~$ conda create -n deepmd deepmd-kit=*=*gpu libdeepmd=*=*gpu lammps-dp cudatoolkit=11.3 horovod -c https://conda.deepmodeling.org
 
 Fast and small tutorial for hurry users
 ---------------------------------------
