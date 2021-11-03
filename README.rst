@@ -67,9 +67,11 @@ what type fo simulations you would like to perform:
 	* XTB: ensure that the xtb executable is in your bin
 	* qml: install the qml package within your python environment
 	* pynnp: compile N2P2 with the pynnp module, and export your library in your PATH
-	* deepmd: install it using conda, or compile deepmd with shared libraries and 
-	export it in your PATH
-	
+	* deepmd: install it using conda, or compile deepmd with shared libraries and export it in your PATH
+You can then download the MORESIM 2.0 code directly in your directory
+using the followning command:
+	.. line-block::
+		git clone 
 Example
 -------
 See launch.sh for some trivial first examples
