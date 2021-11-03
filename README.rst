@@ -23,13 +23,24 @@ Requirements
 ------------
 Mandatory:
 	* Python 3.9 (should also work with 3.6/3.7/3.8 but not tested)
-	* Python packages: os, 
-	* Anaconda 3
-	* Atomic Simulation Enviroment (ASE)
+	* Python basic packages:
+		- os
+		- sys
+		- numpy 1.20.3
+		- argparse 1.1
+		- psutil 5.8.0
+		- time 
+		- cpuinfo
+		- scipy 1.6.3 (deprecated, is useless)
+		- dill 0.3.4
+		- concurrent
+	* Miniconda 3
+	* Atomic Simulation Enviroment (ASE) version 3.22.0
 
 Optional (depends on your target):
 	1/ For baselined:
 		* DFTB: dftb+ software
+			- NOTE: DFTB should be compiled with python and DFTD3 options in preference
 		* XTB: xtb software
 	2/ For ML corrections:
 		* KRR: qml python package
