@@ -49,8 +49,10 @@ Optional (depends on your target):
 		
 Installation 
 ------------
-TOTO IS TOTO :)
-
+The best way to install the package is to create our own python environment. For this you can use the miniconda approach by typing in your terminal:
+	.. line-block::
+		conda create
+		
 Example
 -------
 See launch.sh for some trivial first examples
