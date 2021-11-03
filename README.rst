@@ -39,14 +39,14 @@ Mandatory:
 
 Optional (depends on your target):
 	1/ For baselined:
-		* DFTB: dftb+ software
+		* DFTB: https://dftbplus.org/download			
 			- NOTE: DFTB should be compiled with python and DFTD3 options in preference
-		* XTB: xtb software
+		* XTB: https://xtb-docs.readthedocs.io/en/latest/setup.html
 	2/ For ML corrections:
-		* KRR: qml python package
-		* N2P2: pynnp python package
-		* DeepMD: deepmd python package
-
+		* KRR: qml python package https://github.com/qmlcode/qml/blob/master/README.md
+		* N2P2: pynnp python package https://github.com/CompPhysVienna/n2p2
+		* DeepMD: deepmd python package https://github.com/deepmodeling/deepmd-kit
+		
 Installation 
 ------------
 TOTO IS TOTO :)
