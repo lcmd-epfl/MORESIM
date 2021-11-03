@@ -47,11 +47,11 @@ Future good tutorials are in current statement !
 
 Authors
 -------
-	Raimon Fabregat: raimon.fabregat@epfl.ch
-	Frederic Celerse: frederic.celerse@epfl.ch
-	Alberto Fabrizio: alberto.fabrizio@epfl.ch
-	Veronika Juraskova: veronika.juraskova@epfl.ch
-	Benjamin Meyer: benjamin.meyer@epfl.ch
-	Theo Jaffrelot Inizant: theo.jaffrelot-inizant@sorbonne-universite.fr
-	Daniel Hollas: daniel.hollas@epfl.ch
-	Clemence Corminboeuf: clemence.corminboeuf@epfl.ch
+	* Raimon Fabregat: raimon.fabregat@epfl.ch
+	* Frederic Celerse: frederic.celerse@epfl.ch
+	* Alberto Fabrizio: alberto.fabrizio@epfl.ch
+	* Veronika Juraskova: veronika.juraskova@epfl.ch
+	* Benjamin Meyer: benjamin.meyer@epfl.ch
+	* Theo Jaffrelot Inizant: theo.jaffrelot-inizant@sorbonne-universite.fr
+	* Daniel Hollas: daniel.hollas@epfl.ch
+	* Clemence Corminboeuf: clemence.corminboeuf@epfl.ch
