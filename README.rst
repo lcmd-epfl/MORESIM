@@ -5,7 +5,7 @@ VERSION 2.0**
 
 About NEW MORESIM 2.0
 ---------------------
-MORESIM is a made home package that allows to perform standard MD simulations
+| MORESIM is a made home package that allows to perform standard MD simulations
 at a low level of theory (baselined) and correct the obtained PES using some 
 ML potentials !
 | --> The different MD approaches:
