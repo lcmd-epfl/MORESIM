@@ -71,12 +71,36 @@ what type fo simulations you would like to perform:
 You can then download the MORESIM 2.0 code directly in your directory
 using the followning command:
 	.. line-block::
-		git clone 
-Example
--------
-See launch.sh for some trivial first examples
-Future good tutorials are in current statement !
+		git clone https://github.com/lcmd-epfl/MORESIM.gitExample 
+The directory where the code was downloaded is thus ready to be used 
+for some simulations !
 
+Fast and small tutorial for hurry users
+---------------------------------------
+We list here the most important things that a user has to know
+in order to correctly use the code.
+
+Examples
+--------
+Future good tutorials are in current statement !
+launch.sh lists some basic commands to launch simulations !
+We list here some examples of possible commands. 
+Note that it is not the whole possible commands but just use here to show how a computation is basically launched.
+	* cMD simulations
+		- DFTB/DeepMD // Monte Carlo: 
+		- DFTB/DeepMD // Restart // Monte Carlo: 
+		- DFTB/KRR // Monte Carlo: 
+		- DFTB/DeepMD // Velocity Verlet Langevin Modified: 
+		- DFTB/DeepMD // Velocity Verlet:
+		- DFTB/N2P2 // Velocity Verlet:
+		- XTB/N2P2 // Monte Carlo: 
+		- XTB/N2P2 // Velocity Verlet:
+	* hRES simulations
+		- DFTB/DeepMD // Monte Carlo:
+		- DFTB/DeepMD // Restart // Monte Carlo:
+		- XTB/N2P2 // Monte Carlo:
+		- XTB/N2P2 // Velocity Verlet:		
+		
 Authors
 -------
 	* Raimon Fabregat: raimon.fabregat@epfl.ch
