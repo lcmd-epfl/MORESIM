@@ -61,11 +61,11 @@ And decide to deactivate it once finished:
 		conda deactivate mymoresim	
 Concerning now the different baselined and ML corrections, you should install them independently, depending on
 what type fo simulations you would like to perform.
-	a- DFTB: ensure that the dftb+ executable is in your bin
-	b- XTB: ensure that the xtb executable is in your bin
-	c- qml: install the qml package within your python environment
-	d- pynnp: compile N2P2 with the pynnp module, and export your library in your PATH
-	e- deepmd: either install it using conda, or compile deepmd with shared libraries and 
+	-a DFTB: ensure that the dftb+ executable is in your bin
+	-b XTB: ensure that the xtb executable is in your bin
+	-c qml: install the qml package within your python environment
+	-d pynnp: compile N2P2 with the pynnp module, and export your library in your PATH
+	-e deepmd: install it using conda, or compile deepmd with shared libraries and 
 	export it in your PATH
 	
 Example
