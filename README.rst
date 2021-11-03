@@ -124,7 +124,11 @@ Possibility for GPUs plateform is also allowed:
 	~$ conda create -n deepmd deepmd-kit=*=*gpu libdeepmd=*=*gpu lammps-dp cudatoolkit=11.3 horovod -c https://conda.deepmodeling.org
 
 A fast and small tutorial for hurry users
----------------------------------------
+-----------------------------------------
+
+.. image:: images/dithiaclyclophane.jpeg 
+	:width: 600
+
 We list here the most important things that a user has to know
 in order to correctly use the code.
 
