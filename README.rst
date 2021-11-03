@@ -50,7 +50,7 @@ Optional (depends on your target):
 Installation 
 ------------
 The best way to install the package is to create our own python environment. For this you can use the miniconda approach by typing in your terminal:
-	.. line-block::
+	.. code::bash
 		conda create
 		
 Example
