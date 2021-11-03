@@ -58,12 +58,18 @@ For this you can use the miniconda approach by typing in your terminal:
 
 You can then activate your 
 new environment:
-	.. line-block::
-		conda activate mymoresim
+
+.. code:: bash
+
+	~$ conda activate mymoresim
+
 And decide to deactivate it 
 once finished:
-	.. line-block::
-		conda deactivate mymoresim	
+
+.. code:: bash
+
+	~$ conda deactivate mymoresim
+	
 Concerning now the different baselined and ML corrections, you should install them independently, depending on
 what type fo simulations you would like to perform:
 	* DFTB: ensure that the dftb+ executable is in your bin
@@ -71,10 +77,14 @@ what type fo simulations you would like to perform:
 	* qml: install the qml package within your python environment
 	* pynnp: compile N2P2 with the pynnp module, and export your library in your PATH
 	* deepmd: install it using conda, or compile deepmd with shared libraries and export it in your PATH
+
 You can then download the MORESIM 2.0 code directly in your directory
 using the followning command:
-	.. line-block::
-		git clone https://github.com/lcmd-epfl/MORESIM.gitExample 
+
+.. code:: bash
+
+	~$ git clone https://github.com/lcmd-epfl/MORESIM.gitExample 
+
 The directory where the code was downloaded is thus ready to be used 
 for some simulations !
 
