@@ -123,16 +123,91 @@ Possibility for GPUs plateform is also allowed:
 
 	~$ conda create -n deepmd deepmd-kit=*=*gpu libdeepmd=*=*gpu lammps-dp cudatoolkit=11.3 horovod -c https://conda.deepmodeling.org
 
-Fast and small tutorial for hurry users
+A fast and small tutorial for hurry users
 ---------------------------------------
 We list here the most important things that a user has to know
 in order to correctly use the code.
 
-Examples
---------
+A simulation is launched using directly the python plateform.
+To have a spreader overview on the different possibilities on how to submit a computation, 
+you can refer to the next session. You can just enter in your terminal:
+
+.. code:: bash
+
+	~$ python main.py --help
+
+In our case, we will launch a simple NVT cMD simulation on a small molecule, 
+the dithiaclyclophene. In the examples directory, you can find a folder named
+DFTB-N2P2, you copy the whole files in your main directory. 
+
+Therefore, the first setup is the following:
+	- Type of simulation: **cMD**
+	- Integrator: **VV**
+
+The files you copied from examples/DFTB-N2P2 where trained on energies and forces of 5000 structures extracted from a converged REMD simulation using the Farthest Point Sampling (FPS) algorithm. Energies and forces for each structure correspond to the difference between the DFT energy (computed with terachem software at the PBE0/6-31G level of theory) and DFTB energy (computed at the SK level of theory with dftb+). 
+Therefore, it enforces us to choose DFTB and N2P2 in our parametrization:
+	- Baselined: **DFTB**
+	- ML correction: **N2P2**
+
+.. note::
+
+	Choosing DFTB induces that the user has to enter manually the DFTB command into the main.py file ! 
+	More comments on this will be available in future tutorials !
+
+Choosing Velocity Verlet (VV) induced thus to choose a sepcific timestep:
+	- Timestep: **0.5** (unit fs)
+	
+Finally, the rest of the setup is also specified but is not crucial for the consitency of the simulation:
+	- Temperature: **300** (in K)
+	- Thermostat: Nose-Hoover (by default)
+	- Trajectory printing frequency: **10**
+	- Number of steps: **1000**
+	- Periodicity: **False**
+
+You place the different files in a same directory:
+	- N2P2 files (input.nn, scaling.data, weights.001.data, weights.006.data, weights.016.data)
+	- main.py
+	- lib folder
+	- system.xyz
+	- type.dat
+Having in the same directory all the listed files, you can just submit the computation by typing in the terminal:
+
+.. code:: bash
+
+	~$ python main.py -p False -dyn cMD -int VV -bsnld DFTB -ml N2P2 -T 300 -ts 0.5 -freq 10 -nstp 1000 
+	
+The statement of your dynamics will appear in a control file labeled as **control_file.dat** and will help you
+at managing the good advancement for your dynamics. Your trajectory will be printed in a file labeled as **trajectory_structures.xyz**
+every stride steps. Finally, the restart file if you want to relaunch your dynamics appears as **restart.dat** and corresponds
+to the last structure into trajectory_structures.xyz.
+
+The Similar approach is used to launch a hRES simulation, we just need to add few supplementary keywords into the python
+command which correspond to:
+	- Number of replicas: **4**
+	- Number of exchanges: **50**
+	- Path of the reservoir: **examples/DFTB-N2P2-Reservoir/**
+	- Size of the reservoir: **33899**
+	
+.. note::	
+	
+	Nothe that the only difference with cMD occurs for the number of steps. In the hRES case, the number of step corresponds to the amount of steps you make between each exchanges.
+	
+The hRES simulation is launched using this command:
+
+.. code:: bash
+
+	~$ python main.py -p False -dyn cMD -int VV -bsnld DFTB -ml N2P2 -T 300 -ts 0.5 -freq 20 -nstp 20 -rep 4 -rsv examples/DFTB-N2P2-Reservoir/ -szrsv 33899 -exc 50
+	
+Still one control file appears, and one trajectory file for each replicas is then generated. Also, one restart file for each replicas is also generated. 
+
+This was a short brief on how to fastly use the code. For more details, we strongly recommand the more detailed tutorials
+for users who would like to understand more the code.
+	
+More diverse Examples
+---------------------
 Future good tutorials are in current statement !
-launch.sh lists some basic commands to launch simulations !
-We list here some examples of possible commands. 
+
+Besides to the short tutorial we list here some examples of possible other commands. 
 Note that it is not the whole possible commands but just use here to show how a computation is basically launched.
 
 **cMD simulations**
