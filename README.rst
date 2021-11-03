@@ -133,11 +133,34 @@ Note that it is not the whole possible commands but just use here to show how a 
 	~$ python main.py -p True -dyn cMD -int MC -rep 1 -nstp 2000 -T 300 -freq 1 -rst True
 
 - DFTB/KRR // Monte Carlo: 
+
+.. code:: bash
+
+	~$ python main.py -p True -dyn cMD -int MC -ml LKR -rep 1 -nstp 5 -T 300 -freq 1
+
 - DFTB/DeepMD // Velocity Verlet Langevin Modified: 
+
+.. code:: bash
+
+	~$ python main.py -p True -dyn cMD -int VVL -rep 1 -T 300 -freq 1 -nstp 100 -lgv 0.01
+
 - DFTB/DeepMD // Velocity Verlet:
+
+.. code:: bash
+
+	~$ python main.py -p True -dyn cMD -int VV -rep 1 -ts 1 -T 300 -freq 100 -nstp 100 -rseed 1897
+
 - DFTB/N2P2 // Velocity Verlet:
-- XTB/N2P2 // Monte Carlo: 
-- XTB/N2P2 // Velocity Verlet:
+
+.. code:: bash
+
+	~$ python main.py -p True -dyn cMD -int VV -ml N2P2 -rep 1 -T 300 -freq 1 -nstp 100 
+
+- XTB/N2P2 // Velocity Verlet: 
+
+.. code:: bash
+
+	~$ python main.py -p True -dyn cMD -int VV -bsnld XTB -rep 1 -T 300 -freq 1 -nstp 1000
 
 **hRES simulations**
 
