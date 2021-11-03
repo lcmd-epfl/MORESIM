@@ -47,7 +47,7 @@ Optional (depends on your target):
 		* N2P2: pynnp python package https://github.com/CompPhysVienna/n2p2
 		* DeepMD: deepmd python package https://github.com/deepmodeling/deepmd-kit
 		
-Standard Installation 
+Standard installation 
 ---------------------
 The best way to install the package is to create our own python environment. 
 For this you can use the miniconda approach by typing in your terminal:
@@ -87,6 +87,24 @@ using the followning command:
 
 The directory where the code was downloaded is thus ready to be used 
 for some simulations !
+
+Finally, in order to properly use each baselined and ML correction, you should add
+the path to the shared libraries as follow:
+
+.. code:: bash
+
+	~$ export PATH:PATH:/path/to/your/lib
+
+and the same for python libraries:
+
+.. code:: bash
+
+	~$ export PYTHONPATH=$PYTHONPATH:/path/to/your/python/lib
+
+.. note::
+
+	These exports are not mandatory for the installation, but is good to be placed
+	within the bashrc !
 
 Specific installation in case of DeepMD
 ---------------------------------------
