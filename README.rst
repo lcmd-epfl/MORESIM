@@ -117,8 +117,9 @@ Future good tutorials are in current statement !
 launch.sh lists some basic commands to launch simulations !
 We list here some examples of possible commands. 
 Note that it is not the whole possible commands but just use here to show how a computation is basically launched.
-	* cMD simulations
-		- DFTB/DeepMD // Monte Carlo: 
+* cMD simulations
+- DFTB/DeepMD // Monte Carlo: 
+
 .. code:: bash
 
 	~$ python main.py -p True -dyn cMD -int MC -rep 1 -nstp 2000 -T 300 -freq 1
@@ -129,17 +130,18 @@ Note that it is not the whole possible commands but just use here to show how a 
 
 	~$ python main.py -p True -dyn cMD -int MC -rep 1 -nstp 2000 -T 300 -freq 1 -rst True
 
-		- DFTB/KRR // Monte Carlo: 
-		- DFTB/DeepMD // Velocity Verlet Langevin Modified: 
-		- DFTB/DeepMD // Velocity Verlet:
-		- DFTB/N2P2 // Velocity Verlet:
-		- XTB/N2P2 // Monte Carlo: 
-		- XTB/N2P2 // Velocity Verlet:
-	* hRES simulations
-		- DFTB/DeepMD // Monte Carlo:
-		- DFTB/DeepMD // Restart // Monte Carlo:
-		- XTB/N2P2 // Monte Carlo:
-		- XTB/N2P2 // Velocity Verlet:		
+- DFTB/KRR // Monte Carlo: 
+- DFTB/DeepMD // Velocity Verlet Langevin Modified: 
+- DFTB/DeepMD // Velocity Verlet:
+- DFTB/N2P2 // Velocity Verlet:
+- XTB/N2P2 // Monte Carlo: 
+- XTB/N2P2 // Velocity Verlet:
+
+* hRES simulations
+- DFTB/DeepMD // Monte Carlo:
+- DFTB/DeepMD // Restart // Monte Carlo:
+- XTB/N2P2 // Monte Carlo:
+- XTB/N2P2 // Velocity Verlet:		
 		
 Authors
 -------
