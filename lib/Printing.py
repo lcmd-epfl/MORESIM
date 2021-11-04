@@ -110,6 +110,17 @@ def print_init_restart_cmd(verbose=False):
 		print('VERBOSE: closing of the control_file.dat for restarting')
 	control_file.close()  
 
+def print_init_restart_hres(verbose=False):
+	if verbose:
+		print('VERBOSE: opening of the control_file.dat for restarting')
+	control_file = open('control_file.dat','a')
+	control_file.write("\n################################################### \n")
+	control_file.write("Restarting procedure has been activated for hRES ! \n")
+	control_file.write("################################################### \n")
+	if verbose:
+		print('VERBOSE: closing of the control_file.dat for restarting')
+	control_file.close()
+
 def print_randomseed(rseed):
 	control_file = open('control_file.dat','a')
 	control_file.write("\nRandomseed : {} \n".format(rseed))

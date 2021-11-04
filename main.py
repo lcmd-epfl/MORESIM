@@ -205,6 +205,19 @@ def main(structure, periodic, charge, dynamics, integration, mts, replicas, verb
 	#####################################################################################################################
 
 	#####################################################################################################################
+	# check if a restart procedure is activated for cMD ! 
+	if restart:
+		if verbose:
+			print('VERBOSE: Restart procedure has been activated !')
+		if dynamics == 'cMD':
+			new_init_state = Rst.Restart_cmd(atoms, init_state, integration, periodic=periodic, verbose=verbose)
+			init_state = new_init_state
+			# WARNING: XTB calculator has to be reload in this restart case
+			if baselined == "XTB":
+				init_state.calc = dftbs[0]
+	#####################################################################################################################
+
+	#####################################################################################################################
 	# Defining the dynamics main setup
 	# 1/ cMD case
 	if dynamics == "cMD":
@@ -265,7 +278,7 @@ def main(structure, periodic, charge, dynamics, integration, mts, replicas, verb
 	# Defining the reservoir for hRES simulations
 	if dynamics == "hRES":
 		try:
-			reserv = RSV.Reservoir(structures_folder=rsv,energies=reserv_energies,temperature=T,energy_func=mixed_potentials[-1].energy_reservoir,id_rep=replicas-1)
+			reserv = RSV.Reservoir(structures_folder=rsv,size=szrsv,temperature=T,energy_func=mixed_potentials[-1].energy_reservoir,id_rep=replicas-1)
 			rep_ex_simulations.append(reserv)
 			if verbose:
 				print('VERBOSE: Be aware that reservoir structures coordinates have to be in angstrom and energies in kcal/mol !')
@@ -295,9 +308,12 @@ def main(structure, periodic, charge, dynamics, integration, mts, replicas, verb
 					reserv = VV.Simulation(time_step=timestep,atoms=init_state,energy_func=mixed_potentials[-1].energy_forces_mts_n2p2,temperature=T,dyn_mode=dynamics,thermostat=thermostat,verbose=verbose)
 			rep_ex_simulations.append(reserv)
 
-		# Defining Replica Exchange itself
+		# Defining Replica Exchange itself and check if restart is activated for hres
 		init_states = []
 		init_states = [init_state.copy() for i in range(replicas)]
+		if restart:
+			new_init_states = Rst.Restart_hres(replicas, init_states, integration, periodic=periodic, verbose=verbose)
+			init_states = new_init_states
 		# WARNING: XTB calculator has to be reload in these cases
 		if baselined == "XTB":
 			for i in range(replicas):
@@ -319,24 +335,6 @@ def main(structure, periodic, charge, dynamics, integration, mts, replicas, verb
 			rep_ex = RXC.REXC(num_reps=replicas, simulations=rep_ex_simulations, init_states=init_states, weights=weights, stride=stride, num_processors=replicas, rep_steps=nsteps, integration=integration, xtb=xtb, deepmd=False, lkr=False, n2p2=True, verbose=verbose)
 	#####################################################################################################################
 
-	#####################################################################################################################
-	# Check if a restart procedure is activated or not
-	if restart:
-		if verbose:
-			print('VERBOSE: Restart procedure has been activated !')
-		if dynamics == 'cMD':
-			new_init_state = Rst.Restart_cmd(atoms, init_state, integration, periodic=periodic, verbose=verbose)
-			init_state = new_init_state
-			# WARNING: XTB calculator has to be reload in this restart case
-			if baselined == "XTB":
-				init_state.calc = dftbs[0]
-		if dynamics == 'hRES':
-			new_init_states = Rst.Restart_hres(replicas, init_states, integration, periodic=periodic, verbose=verbose)
-			init_states = new_init_states
-			# WARNING: XTB calculator has to be reload in these restart cases
-			if baselined == "XTB":
-				for i in range(replicas):
-					init_states[i].calc = dftbs[i]
 	#####################################################################################################################
 	# Launching the dynamics
 	mem = psutil.Process().memory_info().rss * 1e-9

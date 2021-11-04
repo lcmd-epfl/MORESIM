@@ -82,6 +82,6 @@ def Restart_hres(num_reps, init_states, integration, periodic=False, verbose=Fal
 			new_state.pbc = pbcc
 			new_state.cell = celll
 		new_states.append(new_state)
-	Prt.print_init_restart_cmd()
+	Prt.print_init_restart_hres()
 	return new_states
 
