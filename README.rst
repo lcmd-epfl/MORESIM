@@ -4,9 +4,9 @@ NEW MORESIM 2.0
 VERSION 2.0**
 
 .. contents:: Table of Contents
-
-	:depth: 2
-	:backlinks: top
+	:depth: 1
+	:local:
+	:backlinks: none
 	
 About NEW MORESIM 2.0
 ---------------------
