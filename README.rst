@@ -3,13 +3,12 @@ NEW MORESIM 2.0
 **Modular Replica Exchange Simulator
 VERSION 2.0**
 
-Table of Contents
------------------
+.. image:: images/MORESIM_LOGO.jpeg
 
-.. contents:: Table of Contents
-	:depth: 2
+.. contents:: **Table of Contents**
+	:depth: 1
 	:local:
-	:backlinks: top
+	:backlinks: none
 
 About NEW MORESIM 2.0
 ---------------------
