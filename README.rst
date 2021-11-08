@@ -3,6 +3,7 @@ NEW MORESIM 2.0
 **Modular Replica Exchange Simulator
 VERSION 2.0**
 
+<<<<<<< HEAD
 .. image:: images/MORESIM_LOGO.jpeg
 
 .. contents:: **Table of Contents**
@@ -10,6 +11,13 @@ VERSION 2.0**
 	:local:
 	:backlinks: none
 
+=======
+.. contents:: 
+	:depth: 1
+	:local:
+	:backlinks: none
+	
+>>>>>>> e2e52cfbfa6ab7cec429c86218418c2319941ab4
 About NEW MORESIM 2.0
 ---------------------
 MORESIM is a made home package that allows to perform standard MD simulations
@@ -17,11 +25,14 @@ at a low level of theory (baselined) and correct the obtained PES using some
 ML potentials !
 	--> The different MD approaches:
 		* Conventional Molecular Dynamics (cMD)
+		* Umbrella Sampling (US) via PLUMED
+		* Metadynamics (MetaD) via PLUMED
 		* Hamiltonian Reservoir Replica Exchanges Molecular Dynamics (hRES)
 	--> The different available integrators:
 		* Monte Carlo
 		* Velocity Verlet Langevin Modified
 		* Velocity Verlet
+		* Velocity Verlet MTS
 	--> The different available baselined and ML corrections:
 		* XTB, DFTB
 		* KRR, N2P2, DeepMD
@@ -302,3 +313,4 @@ Authors
 	* Theo Jaffrelot Inizant: theo.jaffrelot-inizant@sorbonne-universite.fr
 	* Daniel Hollas: daniel.hollas@epfl.ch
 	* Clemence Corminboeuf: clemence.corminboeuf@epfl.ch
+	
