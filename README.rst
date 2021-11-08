@@ -3,6 +3,14 @@ NEW MORESIM 2.0
 **Modular Replica Exchange Simulator
 VERSION 2.0**
 
+Table of Contents
+-----------------
+
+.. contents:: Table of Contents
+	:depth: 2
+	:local:
+	:backlinks: top
+
 About NEW MORESIM 2.0
 ---------------------
 MORESIM is a made home package that allows to perform standard MD simulations
