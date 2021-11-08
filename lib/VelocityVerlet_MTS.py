@@ -24,7 +24,7 @@ class Simulation:
 	""" Class that propagate the atomic positions by the conventional
 	Velocity Verlet althorithm for any representation class """
 
-	def __init__(self, time_step, atoms, energy_func, mode='NVT', thermostat='Bussi', temperature=300, dyn_mode='cMD', mts=[1,6], verbose=False):
+	def __init__(self, time_step, atoms, energy_func, mode='NVT', thermostat='Bussi', temperature=300, dyn_mode='cMD', mts=[1,6], use_plumed=False, verbose=False):
 		"""
 		This is small note about the significance and respective units of each variables declared here
 		in the Simulation class:
@@ -36,6 +36,7 @@ class Simulation:
 			=> temperature                  = targetted temperature through the dynamics    (in K)
 			=> dyn_mode                     = dynamics mode (useful for the flush option)
 			=> mts				= Multiple Timesteping mode 
+			=> use_plumed			= plumed coupling
 			=> verbose                      = debugging mode
 		"""
 		self.atoms = atoms
@@ -49,6 +50,7 @@ class Simulation:
 		self.temperature = temperature
 		self.dyn_mode = dyn_mode
 		self.mts = mts
+		self.use_plumed = use_plumed
 		self.verbose = verbose
 		self.beta = (prm.kb * self.temperature) ** - 1
 		if thermostat == 'Bussi':
@@ -141,6 +143,7 @@ class Simulation:
 		forces = []
 		traj = [] 
 		positions.append(init_state.get_positions())
+		#
 		### Compute initial energy/forces --> initial accelerations --> new velocities ###
 		if deepmd:
 			from deepmd.infer import DeepPot
@@ -188,6 +191,10 @@ class Simulation:
 			number_degrees_freedom = (3 * len(self.masses)) - 6
 			qnh[1] = float(number_degrees_freedom) * qnh[1]
 		#
+		# Initialize plumed if used
+		if self.use_plumed:
+			plumed_calculator = PLM.CalcPlumed(input='plumed.in',timestep=self.time_step,atoms=self.atoms,log='PLUMED.dat')
+		#
 		# MTS SCHEME !
 		# => default is defined by self.mts
 		# => mts count will be used to switch from direct to baselined
@@ -222,9 +229,23 @@ class Simulation:
 					if self.verbose:
 						print('VERBOSE: MTS is direct')
 					potential, force, tt1, tt2 = self.energy_func(new_state,weights,id_rep,pn2p2_d,direct=True,baselined=False,verbose=self.verbose)
-			forces.append(force)
-			potential_energies.append(potential)
-			# 4/ Make half-step temperature and pressure corrections
+			# 4/ Constraints are placed here
+			if self.use_plumed:
+				if self.verbose:
+					print("VERBOSE: PLUMED computation !")
+				curr_pos = new_position
+				curr_ener = potential * (prm.hartree2joule ** -1)
+				energy_bias, forces_bias = plumed_calculator.compute_bias(curr_pos, i, curr_ener)
+				potential += energy_bias[0]
+				potential_energies.append(potential)
+				forces_bias *= 1e-10
+				force += forces_bias
+				potential_energies.append(potential)
+				forces.append(force)
+			else:
+				forces.append(force)
+				potential_energies.append(potential)
+			# 5/ Make half-step temperature and pressure corrections
 			# => ONLY FOR NOSE-HOOVER THERMOSTAT
 			if self.thermostat_name == 'Nose-Hoover':
 				kinetic_energy = 0.5 * np.vdot(vel_half_step * np.array(masses_kg)[:, np.newaxis], vel_half_step)
@@ -239,14 +260,14 @@ class Simulation:
 				if self.verbose and isprint:
 					print('VERBOSE: Half step new kinetic energy : {}'.format(kinetic_energy))
 					print('VERBOSE: Half step new temperature : {}'.format(T_inst))
-			# 5/ Get the next accelerations and find the full-step velocities using the Verlet recursion
+			# 6/ Get the next accelerations and find the full-step velocities using the Verlet recursion
 			acceleration = force * inverse_masses[:, np.newaxis]
 			accelerations.append(acceleration)
 			vel = vel_half_step + (0.5 * (accelerations[i + 1]) * self.time_step * 1e-15)
 			times.append(self.time_step + self.time_step * i)
-			# 6/ Find the constraint-corrected full-step velocities
+			# 7/ Find the constraint-corrected full-step velocities
 			# Place here future constraints !! 
-			# 7/ Compute kinetic energy and make full-step temperature and pressure corrections
+			# 8/ Compute kinetic energy and make full-step temperature and pressure corrections
 			kinetic_energy = 0.5 * np.vdot(vel * np.array(masses_kg)[:, np.newaxis], vel)
 			number_degrees_freedom = (3 * len(self.masses)) - 6
 			T_inst = (2 * kinetic_energy * prm.Na * 0.000239) / (number_degrees_freedom * 1.987204259*1e-3)

@@ -17,13 +17,14 @@ from lib import Trajectory as Trj
 from lib import Printing as Prt
 from lib import Params as prm
 from lib import Thermostat as Thr
+from lib import Plumed as PLM
 os.environ['KMP_WARNINGS'] = '0'
 
 class Simulation:
 	""" Class that propagate the atomic positions by the conventional
 	Velocity Verlet althorithm for any representation class """
 
-	def __init__(self, time_step, atoms, energy_func, mode='NVT', thermostat='Bussi', temperature=300, dyn_mode='cMD', verbose=False):
+	def __init__(self, time_step, atoms, energy_func, mode='NVT', thermostat='Bussi', temperature=300, dyn_mode='cMD', use_plumed=False, verbose=False):
 		"""
 		This is small note about the significance and respective units of each variables declared here
 		in the Simulation class:
@@ -34,6 +35,7 @@ class Simulation:
 			=> mode				= Thermodynamics ensemble
 			=> temperature                  = targetted temperature through the dynamics    (in K)
 			=> dyn_mode                     = dynamics mode (useful for the flush option)
+			=> use_plumed			= plumed coupling
 			=> verbose                      = debugging mode
 		"""
 		self.atoms = atoms
@@ -63,6 +65,7 @@ class Simulation:
 		if mode == 'NPT':
 			if verbose:
 				print('VERBOSE: NPT mode detected !')
+		self.use_plumed = use_plumed
 
 	def simulation_details(self):
 		return vars(self)
@@ -170,6 +173,10 @@ class Simulation:
 			number_degrees_freedom = (3 * len(self.masses)) - 6
 			qnh[1] = float(number_degrees_freedom) * qnh[1]
 		#
+		# Initialize plumed if used
+		if self.use_plumed == 'True':
+			plumed_calculator = PLM.CalcPlumed(input='plumed.in',timestep=self.time_step,atoms=self.atoms,log='PLUMED.dat')
+		#
 		### VV scheme for one step: ###
 		for i in range(steps):
 			t1 = time.time()
@@ -179,15 +186,27 @@ class Simulation:
 			new_state = init_state
 			new_state.set_positions(new_position)
 			positions.append(new_position)
-			# 2/ Get constraint-corrected positions and half-step velocities
-			# Place here future constraints !!
-			# 3/ Get the potential energy and atomic forces
+			# 2/ Get the potential energy and atomic forces
 			if deepmd:
 				potential, force, tt1, tt2 = self.energy_func(new_state,dp,weights,verbose=self.verbose)
 			if n2p2:
 				potential, force, tt1, tt2 = self.energy_func(new_state,weights,id_rep,pn2p2,verbose=self.verbose)
-			forces.append(force)
-			potential_energies.append(potential)
+			# 3/ Constraints are placed here
+			if self.use_plumed == 'True':
+				if self.verbose:
+					print("VERBOSE: PLUMED computation !")
+				curr_pos = new_position
+				curr_ener = potential * (prm.hartree2joule ** -1)
+				energy_bias, forces_bias = plumed_calculator.compute_bias(curr_pos, i, curr_ener)
+				potential += energy_bias[0]
+				potential_energies.append(potential)
+				forces_bias *= 1e-10
+				force += forces_bias
+				potential_energies.append(potential)
+				forces.append(force)
+			else:
+				potential_energies.append(potential)
+				forces.append(force)
 			# 4/ Make half-step temperature and pressure corrections
 			# => ONLY FOR NOSE-HOOVER THERMOSTAT
 			if self.thermostat_name == 'Nose-Hoover':
@@ -208,9 +227,7 @@ class Simulation:
 			accelerations.append(acceleration)
 			vel = vel_half_step + (0.5 * (accelerations[i + 1]) * self.time_step * 1e-15)
 			times.append(self.time_step + self.time_step * i)
-			# 6/ Find the constraint-corrected full-step velocities
-			# Place here future constraints !! 
-			# 7/ Compute kinetic energy and make full-step temperature and pressure corrections
+			# 6/ Compute kinetic energy and make full-step temperature and pressure corrections
 			kinetic_energy = 0.5 * np.vdot(vel * np.array(masses_kg)[:, np.newaxis], vel)
 			number_degrees_freedom = (3 * len(self.masses)) - 6
 			T_inst = (2 * kinetic_energy * prm.Na * 0.000239) / (number_degrees_freedom * 1.987204259*1e-3)
@@ -244,7 +261,7 @@ class Simulation:
 				if deepmd:
 					print_potential = potential
 					print_kinetic_energy = float(kinetic_energy_kcal)
-					print_total_energy = float(total_energy) 
+					print_total_energy = float(total_energy)
 					Prt.print_vvl_step(i+1,print_potential,print_kinetic_energy,print_total_energy,T_inst)
 				if n2p2:
 					print_potential = potential
@@ -254,7 +271,7 @@ class Simulation:
 				if self.verbose:
 					print('VERBOSE: VVL step {}        Potential energy = {}, Kinetic energy = {}, Total energy = {}'.format(i+1,potential,kinetic_energy,total_energy)) 
 					print('VERBOSE: Timing (in sec) = {}'.format(t2-t1)) 
-			# 8/ Built new ASE object if it has to be stored withinn traj
+			# 7/ Built new ASE object if it has to be stored withinn traj
 			if (i+1) % stride == 0:
 				state = init_state
 				init_state.set_positions(new_position)

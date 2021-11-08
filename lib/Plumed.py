@@ -7,14 +7,14 @@ Plumed interface to couple MD with Plumed package
 """
 
 from os.path import exists
-from ase.units import fs, mol, KJ, nm
+from ase.units import fs, mol, nm
 import numpy as np
 
-class Plumed:
+class CalcPlumed:
 	""" Plumed general class """
 
 	def __init__(self, input, timestep, atoms=None, log='', restart=False, use_charge=False, update_charge=False, verbose=False):
-		from plumed import Plumed as pl
+		import plumed
 		if atoms is None:
 			raise TypeError('ERROR: plumed has to be defined with the object atoms inside')
 		self.istep = 0
@@ -24,23 +24,24 @@ class Plumed:
 		natoms = len(atoms.get_positions())
 		# Units setup
 		# WARNINGS: outputs from plumed will still be in plumed units
-		self.plumed = pl()
+		self.plumed = plumed.Plumed()
 		ps = 1000 * fs
-		self.plumed.cmd("setMDEnergyUnits", mol, KJ)
+		#self.plumed.cmd("setMDEnergyUnits", mol, KJ)
 		self.plumed.cmd("setMDLengthUnits", 1/nm)
 		self.plumed.cmd("setMDTimeUnits", 1/ps)
 		self.plumed.cmd("setMDChargeUnits", 1.)
 		self.plumed.cmd("setMDMassUnits", 1.)
 		self.plumed.cmd("setMDMassUnits", 1.)
 		self.plumed.cmd("setNatoms", natoms)
-		self.plumed.cmd("setMDEngine", "ASE")
+		self.plumed.cmd("setMDEngine", "python")
 		self.plumed.cmd("setLogFile", log)
 		self.plumed.cmd("setTimestep", float(timestep))
 		self.plumed.cmd("setRestart", restart)
-		self.plumed.cmd("setKbT", float(kT))
+		self.plumed.cmd("setKbT", 1.)
 		self.plumed.cmd("init")
-		for line in input:
-			self.plumed.cmd("readInputLine", line)
+		with open(input) as f:
+			for line in f:
+				self.plumed.cmd("readInputLine", line)
 		self.atoms = atoms
 
 	def compute_bias(self, pos, istep, unbiased_energy):
@@ -49,7 +50,7 @@ class Plumed:
 		self.plumed.cmd("setEnergy", unbiased_energy)
 		self.plumed.cmd("setMasses", self.atoms.get_masses())
 		forces_bias = np.zeros((self.atoms.get_positions()).shape, dtype=float)
-		self.plumed.cmd("setForces", force_bias)
+		self.plumed.cmd("setForces", forces_bias)
 		virial = np.zeros((3,3), dtype=float)
 		self.plumed.cmd("setVirial", virial)
 		self.plumed.cmd("prepareCalc")

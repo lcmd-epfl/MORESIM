@@ -86,6 +86,15 @@ def print_check_ml(baselined,mlcorrection,verbose=False):
 		print('VERBOSE: closing of the control_file.dat for checking ML parametrization') 
 	control_file.close() 
 
+def print_plumed_init(verbose=False):
+	if verbose:
+		print('VERBOSE: opening of the control_file.dat for plumed checking')
+	control_file = open('control_file.dat','a')
+	control_file.write("\n################################################### \n")
+	control_file.write("PLUMED has been activated ! \n")
+	control_file.write("################################################### \n")
+	control_file.close()
+
 def print_check_reservoir(rsv,szrsv,verbose=False):
 	if verbose:
 		print('VERBOSE: opening of the control_file.dat for reservoir update')  

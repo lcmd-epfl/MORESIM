@@ -16,7 +16,7 @@ from lib import VelocityVerlet as VV
 from lib import VelocityVerlet_MTS as VVMTS
 from lib import ReplicaExchangeSimulation as RXC
 
-def main(structure, periodic, charge, dynamics, integration, mts, replicas, verbose, baselined, gfn, T, mlcorrection, rsv, szrsv, nexc, nsteps, timestep, stride, langevin, thermostat, restart, rseed):
+def main(structure, periodic, charge, dynamics, integration, mts, replicas, verbose, baselined, gfn, T, mlcorrection, rsv, szrsv, nexc, nsteps, timestep, stride, langevin, restart, thermostat, plumed, rseed):
 	#####################################################################################################################
 	# MEMORY USAGE !
 	mem = psutil.Process().memory_info().rss * 1e-9
@@ -205,6 +205,20 @@ def main(structure, periodic, charge, dynamics, integration, mts, replicas, verb
 	#####################################################################################################################
 
 	#####################################################################################################################
+	# check for a plumed activation
+	if plumed:
+		if verbose:
+			print('VERBOSE: Plumed has been activated !')
+		if integration == 'MC':
+			raise('ERROR: Plumed is not available with MC algorithm ! I kill you !')
+		if dynamics != 'cMD':
+			raise('ERROR: Plumed is only available with the cMD mode ! I kill you !')
+		if os.path.isfile('plumed.in') == False:
+			raise('ERROR: plumed.in file does not exist ! I kill you !')
+		Prt.print_plumed_init()
+	#####################################################################################################################
+
+	#####################################################################################################################
 	# check if a restart procedure is activated for cMD ! 
 	if restart:
 		if verbose:
@@ -232,19 +246,19 @@ def main(structure, periodic, charge, dynamics, integration, mts, replicas, verb
 		# 2/ Velocity Verlet Langevin modified cMD case
 		if integration == "VVL":
 			if mlcorrection == "DeepMD":
-				cmd_simulation = VVL.Simulation(time_step=timestep,atoms=init_state,energy_func=mixed_potentials[0].energy_forces_dp,temperature=T,langevin_friction_coeff=langevin,dyn_mode=dynamics,verbose=verbose)
+				cmd_simulation = VVL.Simulation(time_step=timestep,atoms=init_state,energy_func=mixed_potentials[0].energy_forces_dp,temperature=T,langevin_friction_coeff=langevin,dyn_mode=dynamics,use_plumed=plumed,verbose=verbose)
 			if mlcorrection == "N2P2":
-				cmd_simulation = VVL.Simulation(time_step=timestep,atoms=init_state,energy_func=mixed_potentials[0].energy_forces_n2p2,temperature=T,langevin_friction_coeff=langevin,dyn_mode=dynamics,verbose=verbose)
+				cmd_simulation = VVL.Simulation(time_step=timestep,atoms=init_state,energy_func=mixed_potentials[0].energy_forces_n2p2,temperature=T,langevin_friction_coeff=langevin,dyn_mode=dynamics,use_plumed=plumed,verbose=verbose)
 		# 3/ Conventional Velocity Verlet cMD case
 		if integration == "VV":
 			if mlcorrection == "DeepMD":
-				cmd_simulation = VV.Simulation(time_step=timestep,atoms=init_state,energy_func=mixed_potentials[0].energy_forces_dp,temperature=T,dyn_mode=dynamics,thermostat=thermostat,verbose=verbose)
+				cmd_simulation = VV.Simulation(time_step=timestep,atoms=init_state,energy_func=mixed_potentials[0].energy_forces_dp,temperature=T,dyn_mode=dynamics,thermostat=thermostat,use_plumed=plumed,verbose=verbose)
 			if mlcorrection == "N2P2":
-				cmd_simulation = VV.Simulation(time_step=timestep,atoms=init_state,energy_func=mixed_potentials[0].energy_forces_n2p2,temperature=T,dyn_mode=dynamics,thermostat=thermostat,verbose=verbose)
+				cmd_simulation = VV.Simulation(time_step=timestep,atoms=init_state,energy_func=mixed_potentials[0].energy_forces_n2p2,temperature=T,dyn_mode=dynamics,thermostat=thermostat,use_plumed=plumed,verbose=verbose)
 		# 4/ MTS Velocity Verlet cMD case
 		if integration == "VV_MTS":
 			if mlcorrection == "N2P2":
-				cmd_simulation = VVMTS.Simulation(time_step=timestep,atoms=init_state,energy_func=mixed_potentials[0].energy_forces_mts_n2p2,temperature=T,dyn_mode=dynamics,thermostat=thermostat,verbose=verbose)
+				cmd_simulation = VVMTS.Simulation(time_step=timestep,atoms=init_state,energy_func=mixed_potentials[0].energy_forces_mts_n2p2,temperature=T,dyn_mode=dynamics,thermostat=thermostat,use_plumed=plumed,verbose=verbose)
 
 	# 2/ hRES case
 	if dynamics == "hRES":
@@ -415,8 +429,9 @@ if __name__ == "__main__":
 	parser.add_argument('-lgv', '--langevin', type = float, default = 0.1, help = "The Langevin factor for VVL dynamics. Default is 10")
 	parser.add_argument('-rst', '--restart', type = bool, default = False, help = "Boolean to specify if we retart or not the dynamics. Default is False")
 	parser.add_argument('-thr', '--thermostat', type = str, default = 'Nose-Hoover', help = "Thermostat for Velocity Verlet simulation. Default is Nose-Hoover")
+	parser.add_argument('-plm', '--plumed', type = str, default = 'False', help = "Plumed activation. Default is False")
 	parser.add_argument('-rseed', '--randomseed', type = int, default = 1, help = "Randomseed")
 	args = parser.parse_args()
-	sys.exit(main(args.structure, args.periodic, args.charge, args.dynamics, args.integration, args.multitimestep, args.replicas, args.verbose, args.baselined, args.gfn, args.temperature, args.mlcorrection, args.reservoir, args.size_reservoir, args.exchange, args.nsteps, args.timestep, args.stride, args.langevin, args.thermostat, args.restart, args.randomseed))
+	sys.exit(main(args.structure, args.periodic, args.charge, args.dynamics, args.integration, args.multitimestep, args.replicas, args.verbose, args.baselined, args.gfn, args.temperature, args.mlcorrection, args.reservoir, args.size_reservoir, args.exchange, args.nsteps, args.timestep, args.stride, args.langevin, args.restart, args.thermostat, args.plumed, args.randomseed))
 
 #####################################################################################################################

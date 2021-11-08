@@ -22,7 +22,7 @@ class Simulation:
 	""" Class that propagate the atomic positions by a Velocity Verlet
 	algorithm for any representation class """
 
-	def __init__(self, time_step, atoms, energy_func, langevin_friction_coeff=0.01, temperature=300, dyn_mode='cMD', verbose=False):
+	def __init__(self, time_step, atoms, energy_func, langevin_friction_coeff=0.01, temperature=300, dyn_mode='cMD', use_plumed=False, verbose=False):
 		"""
 		This is small note about the significance and respective units of each variables declared here
 		in the Simulation class:
@@ -33,6 +33,7 @@ class Simulation:
 			=> langevin_friction_coeff	= langevin damping coefficient			(in fs-1)
 			=> temperature			= targetted temperature through the dynamics	(in K)
 			=> dyn_mode			= dynamics mode (useful for the flush option)
+			=> use_plumed			= plumed coupling
 			=> verbose			= debugging mode
 		"""
 		self.atoms = atoms
@@ -45,6 +46,7 @@ class Simulation:
 		self.langevin_friction_coeff = langevin_friction_coeff
 		self.temperature = temperature
 		self.dyn_mode = dyn_mode
+		self.use_plumed = use_plumed
 		self.verbose = verbose
 		self.beta = (prm.kb * self.temperature) ** - 1
 
@@ -145,6 +147,10 @@ class Simulation:
 		accelerations.append(acceleration)
 		velocity.append(input_velocity + accelerations[0] * self.time_step * 1e-15)
 		#
+		# Initialize plumed if used
+		if self.use_plumed:
+			plumed_calculator = PLM.CalcPlumed(input='plumed.in',timestep=self.time_step,atoms=self.atoms,log='PLUMED.dat')
+		#
 		# 1/ Compute Langevin constants
 		coeff1 = (2 - langevin_friction_coeff * self.time_step) / (2 + langevin_friction_coeff * self.time_step)
 		coeff2 = np.sqrt(prm.kB * temperature * self.time_step * (0.5 * langevin_friction_coeff / masses_kg))
@@ -170,14 +176,28 @@ class Simulation:
 				potential, force, tt1, tt2 = self.energy_func(new_state,dp,weights,verbose=self.verbose)
 			if n2p2:
 				potential, force, tt1, tt2 = self.energy_func(new_state,weights,id_rep,pn2p2,verbose=self.verbose)
-			forces.append(force)
-			potential_energies.append(potential)
+			# 6/ Constraints are placed here  
+			if self.use_plumed:
+				if self.verbose:
+					print("VERBOSE: PLUMED computation !") 
+				curr_pos = new_position
+				curr_ener = potential * (prm.hartree2joule ** -1)
+				energy_bias, forces_bias = plumed_calculator.compute_bias(curr_pos, i, curr_ener)
+				potential += energy_bias[0]  
+				potential_energies.append(potential)
+				forces_bias *= 1e-10
+				force += forces_bias
+				potential_energies.append(potential)
+				forces.append(force)
+			else:
+				forces.append(force)
+				potential_energies.append(potential)
 			acceleration = force * inverse_masses[:, np.newaxis]
 			accelerations.append(acceleration)
-			# 6/ Update of velocities at step
+			# 7/ Update of velocities at step
 			velocity.append(coeff1 * vel_half_step + (coeff2[:, np.newaxis] * eta) + (0.5 * accelerations[i + 1] * self.time_step * 1e-15))
 			times.append(self.time_step + self.time_step * i)
-			# 7/ Compute kinetic energy and virial
+			# 8/ Compute kinetic energy and virial
 			kinetic_energy = 0.5 * np.vdot(velocity[i + 1] * np.array(masses_kg)[:, np.newaxis], velocity[i + 1])
 			kinetic_energy_kcal = kinetic_energy * prm.joule2kcal * prm.Na
 			kinetic_energies.append(kinetic_energy_kcal)
@@ -195,7 +215,7 @@ class Simulation:
 				if self.verbose:
 					print('VERBOSE: VVL step {}        Potential energy = {}, Kinetic energy = {}, Total energy = {}, Temperature = {}'.format(i+1,potential,kinetic_energy,total_energy,T_inst))
 					print('VERBOSE: Timing (in sec) = {}'.format(t2-t1))
-			# 8/ Built new ASE object if it has to be stored within traj
+			# 9/ Built new ASE object if it has to be stored within traj
 			if (i+1) % stride == 0:
 				state = init_state
 				state.set_positions(new_position)
