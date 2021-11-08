@@ -3,6 +3,10 @@ NEW MORESIM 2.0
 **Modular Replica Exchange Simulator
 VERSION 2.0**
 
+.. contents:: Table of Contents
+
+	:local:
+	:backlinks: top
 About NEW MORESIM 2.0
 ---------------------
 MORESIM is a made home package that allows to perform standard MD simulations
@@ -296,10 +300,3 @@ Authors
 	* Daniel Hollas: daniel.hollas@epfl.ch
 	* Clemence Corminboeuf: clemence.corminboeuf@epfl.ch
 	
-Table of Contents
------------------
-
-.. contents:: Table of Contents
-
-	:local:
-	:backlinks: top
