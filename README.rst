@@ -3,8 +3,6 @@ NEW MORESIM 2.0
 **Modular Replica Exchange Simulator
 VERSION 2.0**
 
-Table of Contents
------------------
 .. contents:: 
 	:depth: 1
 	:local:
