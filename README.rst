@@ -5,7 +5,7 @@ VERSION 2.0**
 
 .. contents:: Table of Contents
 
-	:local:
+	:depth: 2
 	:backlinks: top
 	
 About NEW MORESIM 2.0
